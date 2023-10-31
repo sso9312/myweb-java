@@ -21,15 +21,18 @@ public class BbsDAO { //Data Access Object 데이터베이스 관련 작업
     }//end
     
     
-    public int create(BbsDTO dto) {
+    public int create(BbsDTO dto) {//새글쓰기와 관련된함수
         int cnt=0;
         try {
             con=dbopen.getConnection();//DB연결
             
             sql=new StringBuilder();
-            sql.append(" INSERT INTO tb_bbs(bbsno, wname, subject, content, passwd, ip, grpno) ");
-            sql.append(" VALUES (bbs_seq.nextval, ?, ?, ?, ?, ?, (SELECT NVL(MAX(bbsno), 0)+1 FROM tb_bbs)) ");
+            //sql.append(" INSERT INTO tb_bbs(bbsno, wname, subject, content, passwd, ip, grpno) ");
+            //sql.append(" VALUES (bbs_seq.nextval, ?, ?, ?, ?, ?, (SELECT NVL(MAX(bbsno), 0)+1 FROM tb_bbs)) ");
             
+            sql.append(" INSERT INTO tb_bbs(wname,subject,content,grpno,passwd,ip,regdt)");
+            sql.append(" VALUES(?, ?, ?, (SELECT ifnull(max(bbsno),0)+1 FROM tb_bbs as TB),?,?,now())");
+          
             pstmt=con.prepareStatement(sql.toString());
             pstmt.setString(1, dto.getWname());
             pstmt.setString(2, dto.getSubject());
@@ -264,8 +267,11 @@ public class BbsDAO { //Data Access Object 데이터베이스 관련 작업
     		 
     		 //3) 답변글 추가하기		(insert문)
     		 sql.delete(0, sql.length());
-    		 sql.append(" INSERT INTO tb_bbs(bbsno, wname, subject, content, passwd, ip, grpno, indent, ansnum) ");
-    		 sql.append(" VALUES (bbs_seq.nextval, ?, ?, ?, ?, ?, ?, ?, ?) ");
+    		 // sql.append(" INSERT INTO tb_bbs(bbsno, wname, subject, content, passwd, ip, grpno, indent, ansnum) ");
+    		 // sql.append(" VALUES (bbs_seq.nextval, ?, ?, ?, ?, ?, ?, ?, ?) ");
+    		 sql.append(" INSERT INTO tb_bbs(wname, subject, content, passwd, ip, grpno, indent, ansnum, regdt)");
+    	     sql.append(" VALUES(?,?,?,?,?,?,?,?,now())");
+    		 
     		 pstmt=con.prepareStatement(sql.toString());
     		 pstmt.setString(1, dto.getWname());
     		 pstmt.setString(2, dto.getSubject());

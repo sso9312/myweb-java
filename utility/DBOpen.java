@@ -9,11 +9,21 @@ public class DBOpen {
 	public Connection getConnection() {
 		Connection con = null;
 		try {
-			  
+			  /* 오라클 DB 연결 정보
 			String url		="jdbc:oracle:thin:@localhost:1521:xe";
 			String user		="system";
 			String password	="1234";
 			String driver	="oracle.jdbc.driver.OracleDriver";
+			*/
+			
+			
+			/* cafe24서버 MariaDB 연결 정보*/
+			String url      = "jdbc:mysql://localhost/sso9312";
+		    String user     = "sso9312";
+		    String password = "thdud2023*";
+		    String driver   = "org.gjt.mm.mysql.Driver";
+			
+			
 			Class.forName(driver);
 			con= DriverManager.getConnection(url, user, password);
 	

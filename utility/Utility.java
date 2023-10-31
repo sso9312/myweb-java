@@ -23,7 +23,7 @@ import javax.swing.ImageIcon;
 
 public class Utility { 
   // 서비스시에는 도메인으로 변경됨.
-  private static final String root = "/myweb";
+  private static final String root = "";
 
   public static synchronized String getRoot() {
     return root;
